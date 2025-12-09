@@ -31,8 +31,6 @@
 
         <div class="status-bar">
           <div class="status-badge"><span class="status-dot" id="rtcDot"></span><span id="rtcInfo">Disconnected</span></div>
-          <div class="status-badge"><span class="status-dot" id="captionsDot"></span><span id="captionsInfo">Captions: None</span></div>
-          <div class="status-badge"><span class="status-dot" id="agentDot"></span><span id="agentSpeakingBadge">Agent: Veta AI</span></div>
         </div>
       </div>
 
@@ -317,6 +315,23 @@
       body { padding: 1rem; }
       .voice-ring { width: 180px; height: 180px; }
       .ring-inner { width: 140px; height: 140px; }
+      .control-buttons { gap: 0.75rem; }
+      .icon-btn { width: 52px; height: 52px; font-size: 1.1rem; }
+      .status-badge { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 0.75rem; }
+      .card { padding: 1.5rem; }
+      .voice-ring { width: 160px; height: 160px; }
+      .ring-inner { width: 120px; height: 120px; }
+      .ring-text { font-size: 0.813rem; }
+      .eq-bars { height: 32px; margin-top: 0.5rem; }
+      .bar { width: 3px; }
+      .control-buttons { gap: 0.5rem; margin: 1.5rem 0 1rem; }
+      .icon-btn { width: 48px; height: 48px; font-size: 1rem; }
+      .status-bar { padding: 0.75rem; gap: 0.5rem; }
+      .status-badge { font-size: 0.7rem; padding: 0.35rem 0.6rem; }
     }
   `;
   document.head.appendChild(style);
@@ -328,16 +343,12 @@
 // ====================== VOICE ASSISTANT LOGIC ======================
 const rtcInfoEl = document.getElementById("rtcInfo");
 const rtcDot = document.getElementById("rtcDot");
-const captionsInfoEl = document.getElementById("captionsInfo");
-const captionsDot = document.getElementById("captionsDot");
-const agentDot = document.getElementById("agentDot");
 const connectBtn = document.getElementById("connectBtn");
 const disconnectBtn = document.getElementById("disconnectBtn");
 const muteBtn = document.getElementById("muteBtn");
 const unmuteBtn = document.getElementById("unmuteBtn");
 const youLive = document.getElementById("youLive");
 const agentLive = document.getElementById("agentLive");
-const agentSpeakingBadge = document.getElementById("agentSpeakingBadge");
 const voiceRing = document.getElementById("voiceRing");
 const eqBars = document.querySelectorAll(".bar");
 
@@ -380,14 +391,11 @@ function setAgentText(text){
 }
 
 function setAgentSpeaking(on){
-  agentSpeakingBadge.textContent = `Agent: ${on ? "Speaking" : "Idle"}`;
-  agentDot.classList.toggle("active", on);
   if (connected && !isEndingCall) voiceRing.classList.toggle("active", on);
 }
 
 function setCaptionsBadge(){
-  captionsInfoEl.textContent = `Captions: ${captionsSource}`;
-  captionsDot.classList.toggle("active", captionsSource !== "none");
+  // Removed - captions badge hidden
 }
 
 function checkEndIntent(text){
@@ -591,4 +599,3 @@ connectBtn.onclick = connect;
 disconnectBtn.onclick = disconnect;
 muteBtn.onclick = mute;
 unmuteBtn.onclick = unmute;
-
